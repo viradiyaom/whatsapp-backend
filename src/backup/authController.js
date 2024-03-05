@@ -28,7 +28,6 @@ exports.fetchUserListing = async (req, res) => {
       message: "fetch User Successfully",
     });
   } catch (error) {
-    console.log("🚀 - exports.fetchUserListing= - error:", error);
     return res.failureResponse();
   }
 };
@@ -53,7 +52,6 @@ exports.loginUser = async (req, res) => {
       message: "UserName or Password Not Matched Please Re Enter..!",
     });
   } catch (error) {
-    console.log("🚀 - exports.loginUser= - error:", error);
     return res.failureResponse();
   }
 };

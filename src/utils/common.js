@@ -17,7 +17,7 @@ exports.generateToken = async (userId) => {
       userId,
     },
     secretKey,
-    { expiresIn: jwtExpiry * 60 }
+    { expiresIn: jwtExpiry * 60000 }
   );
 
   const refreshToken = jwt.sign(

@@ -35,7 +35,6 @@ exports.onCreateUser = async (req, res) => {
       message: "User created Successfully",
     });
   } catch (error) {
-    console.log("🚀 - exports.onCreateUser= - error:", error);
     return res.status(500).json({ status: 500, message: error });
   }
 };
@@ -60,7 +59,6 @@ exports.loginUser = async (req, res) => {
       message: "UserName or Password Not Matched Please Re Enter..!",
     });
   } catch (error) {
-    console.log("🚀 - exports.loginUser= - error:", error);
     return res.failureResponse();
   }
 };

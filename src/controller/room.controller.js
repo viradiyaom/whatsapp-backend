@@ -41,15 +41,15 @@ exports.getConversationByRoomId = async (req, res) => {
 
       // do a join on another table called users, and
       // get me a user whose _id = postedByUser
-      // {
-      //   $lookup: {
-      //     from: "users",
-      //     localField: "postedByUser",
-      //     foreignField: "_id",
-      //     as: "postedByUser",
-      //   },
-      // },
-      // { $unwind: "$postedByUser" },
+      {
+        $lookup: {
+          from: "users",
+          localField: "postedByUser",
+          foreignField: "_id",
+          as: "postedByUser",
+        },
+      },
+      { $unwind: "$postedByUser" },
       // // apply pagination
       // { $skip: options.page * options.limit },
       // { $limit: options.limit },
@@ -108,16 +108,32 @@ exports.getRecentConversation = async (req, res) => {
 exports.postMessage = async (req, res) => {
   try {
     const { chatRoomId } = req.params;
-    const message = req.body.messageText;
+
+    const type = req.body.type;
+    const message = req.body.content;
     const currentLoggedUser = req.userId;
 
-    let post = await ChatMessageModel.create({
+    let post;
+    const params = {
       chatRoomId,
-      type: "TEXT",
+      type,
       message,
       postedByUser: currentLoggedUser,
       readByRecipients: { readByUserId: currentLoggedUser },
-    });
+    };
+    if (type === "TEXT") {
+      post = await ChatMessageModel.create(params);
+    } else if (type === "IMAGE") {
+      post = await ChatMessageModel.create({
+        ...params,
+        message: req.filename,
+      });
+    } else if (type === "VIDEO") {
+      post = await ChatMessageModel.create({
+        ...params,
+        message: req.filename,
+      });
+    }
     global.io.sockets.in(chatRoomId).emit("newMessage", post);
     return res.status(200).json({
       status: 200,
@@ -125,7 +141,6 @@ exports.postMessage = async (req, res) => {
       message: "chat message send successfully",
     });
   } catch (error) {
-    console.log("🚀 - exports.postMessage= - error:", error);
     return res.status(500).json({ status: 500, message: error });
   }
 };

@@ -81,7 +81,7 @@ schema.statics.getRecentConversation = async function (
           // messageId: { $last: "$_id" },
           chatRoomId: { $last: "$chatRoomId" },
           message: { $last: "$message" },
-          // type: { $last: "$type" },
+          type: { $last: "$type" },
           postedByUser: { $last: "$postedByUser" },
           createdAt: { $last: "$createdAt" },
           // readByRecipients: { $last: "$readByRecipients" },
