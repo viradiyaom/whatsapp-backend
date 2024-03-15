@@ -4,7 +4,7 @@ const authValidator = require("../utils/validation/authValidator");
 const { generateToken, saveBase64Image } = require("../utils/common");
 const bcrypt = require("bcrypt");
 
-exports.onCreateUser = async (req, res) => {
+exports.signUp = async (req, res) => {
   const { profilePhoto, ...rest } = req.body;
   try {
     const validateRequest = validation.validateParamsWithJoi(
@@ -39,7 +39,7 @@ exports.onCreateUser = async (req, res) => {
   }
 };
 
-exports.loginUser = async (req, res) => {
+exports.login = async (req, res) => {
   try {
     const { email, password } = req.body;
     const users = await UserModel.findOne({ email });
@@ -63,7 +63,7 @@ exports.loginUser = async (req, res) => {
   }
 };
 
-exports.onGetUserById = async (req, res) => {
+exports.getUserById = async (req, res) => {
   try {
     const id = req.params.id;
     if (!id)
@@ -80,7 +80,7 @@ exports.onGetUserById = async (req, res) => {
   }
 };
 
-exports.onDeleteUserById = async (req, res) => {
+exports.deleteUserById = async (req, res) => {
   try {
     const id = req.params.id;
     if (!id)

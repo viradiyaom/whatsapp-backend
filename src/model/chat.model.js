@@ -1,12 +1,3 @@
-// {
-//   _id: user.id,
-//   text: 'works fine!!',
-//   createdAt: new Date(),
-//   user: {
-//     _id: user.id,
-//   },
-// }
-
 /**
  * chatModel.js
  * @description :: model of a database collection of usersModel
